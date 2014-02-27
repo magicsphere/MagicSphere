@@ -6,7 +6,7 @@
 		public function beforeFilter(){
 			parent::beforeFilter();
 
-			$this->Auth->allow('signup','activate');
+			$this->Auth->allow('signup','activate','forgot','login');
 		}
 
 		public function login(){
@@ -17,8 +17,15 @@
 				}else{
 
 					$this->Session->setFlash('Indentifiants incorrects','flash',array('class' => 'error'));
+
 				}
 			}
+		}
+
+		public function logout(){
+			$this->Auth->logout();
+
+			return $this->redirect('/');
 		}
 
 		public function signup(){
@@ -57,6 +64,30 @@
 					$this->Session->setFlash('Merci de corriger vos erreurs', 'flash',array('class' => 'error'));
 				}
 
+			}
+
+		}
+
+		public function forgot(){
+			if(!empty($this->request->data)){
+
+				$User = $this->User->findByMail($this->request->data['User']['Mail'], array('id'));
+
+				debug($User);
+
+				if(empty($User)){
+					$this->Session->setFlash('Ce mail n\'est associé a aucun compte','flash',array('class' => 'error'));
+				}else{
+					App:uses('CakeEmail', 'Network/Email');
+
+					$CakeEmail = new CakeEmail('default');
+					$CakeEmail->to($this->request->data['User']['Mail']);
+					$CakeEmail->subject('Regénération de mot de passe');
+					$CakeEmail->viewVars(array('token' => $token, 'user_id' => $User['User']['id']));
+					$CakeEmail->emailFormat('text');
+					$CakeEmail->template('password');
+					$CakeEmail->send();
+				}
 			}
 
 		}

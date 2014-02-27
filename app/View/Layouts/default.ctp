@@ -14,7 +14,7 @@
     <style type="text/css">
       body {
         padding-top: 60px;
-        padding-bottom: 40px;
+        padding-bottom: 0px;
       }
     </style>
 
@@ -26,11 +26,12 @@
   </head>
 
   <body>
-
-    <div class="navbar navbar-inverse navbar-fixed-top"> 
-      <div class="navbar-inner">
-            <?php echo $this->Html->image("me_LogoGrNewTest.gif", array("alt" => "Magicsphere", 'url'=>'/')); ?>
+    <div class="navbar navbar-inverse navbar-fixed-top">      
+      <div class="navbar-inner">  
         <div class="container">
+          <a href="/" class="brand"><img alt="" src="/logo.gif" />
+           <?php echo $this->Html->image("me_LogoGrNewTest.gif", array("alt" => "Magicsphere", 'url'=>'/')); ?> 
+           </a>
           <button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -39,7 +40,7 @@
           
           <div class="nav-collapse collapse">
             <ul class="nav">
-              <li class="active"><a href="#">Home</a></li>
+              <li class="active"><a href="#"><i class="icon-home icon-white"></i>Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Magic<b class="caret"></b></a>
                 <ul class="dropdown-menu">
@@ -91,30 +92,35 @@
                 <li><?php echo $this->html->link('Mon compte', '#'); ?></li>
                 <li><?php echo $this->html->link('Se déconnecter', array('controller' => 'User', 'action' => 'logout')); ?></li>
               </ul>
-            <?php }else{ ?>
-
-
-            <?php  } ?>
+            <?php }else{ 
+              echo $this->Form->create('User', array('Class' => 'navbar-form pull-right'));
+              echo $this->Form->input('Username', array('label' => false, 'div' => false, 'placeholder' => 'Email', 'class' => 'span2'));
+              echo $this->Form->input('Userpassword', array('label' => false, 'div' => false, 'placeholder' => 'Mot de pass', 'class' => 'span2', 'type' => 'password'));
+              ?>
+                  <button class="btn" type="submit" >Se connecter</button>
+             <?php 
+              echo $this->Form->end();
+             } ?>
             <!--/nocache-->
           </div><!--/.nav-collapse -->
         </div>
       </div>
     </div>
 
-    <div class="container">
+    <div style="margin-top: 150px;">
+        <div class="container">
+          <div class="row">
 
-      <!-- Example row of columns -->
-      <div class="row">
-        <?php echo $this->Session->flash(); ?>
-        <?php echo $this->Session->flash('Auth'); ?>
-        <?php echo $this->fetch('content'); ?>
-      
-      </div>
+            <?php echo $this->Session->flash(); ?>
+            <?php echo $this->Session->flash('Auth'); ?>
+            <?php echo $this->fetch('content'); ?>
 
-      <hr>
+          </div>
 
-    </div> <!-- /container -->
+          <hr>
 
+        </div>
+    </div>
     <?php echo $this->Html->script('http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js'); ?>
     <?php echo $this->Html->script('bootstrap'); ?>
     <?php echo $this->Html->script('cakebootstrap'); ?>
