@@ -43,8 +43,9 @@
               <li class="active"><a href="#"><i class="icon-home icon-white"></i>Home</a></li>
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Magic<b class="caret"></b></a>
-                <ul class="dropdown-menu">
-                  <li><a href="#">Cards</a></li>
+                <ul class="dropdown-menu"><li>
+                  <?php echo $this->Html->link('Cards',array('controller' => 'Cards', 'action' => 'Listcard', 'id' => 1)); ?>
+                  </li>
                   <li><a href="#">Editions</a></li>
                   <li><a href="#">Illustrateurs</a></li>
                   <li class="divider"></li>
@@ -56,7 +57,9 @@
               <li class="dropdown">
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Pokémon<b class="caret"></b></a>
                 <ul class="dropdown-menu">
-                  <li><a href="#">Cards</a></li>
+                  <li>
+                   <?php echo $this->Html->link('Cards',array('controller' => 'Cards', 'action' => 'Listcard', 'id' => 2)); ?>
+                  </li>
                   <li><a href="#">Editions</a></li>
                   <li><a href="#">Illustrateurs</a></li>
                 </ul>
@@ -89,13 +92,13 @@
             <!--nocache-->
             <?php if($this->Session->read('Auth.User.id')){ ?>     
               <ul class="nav pull-right">
-                <li><?php echo $this->html->link('Mon compte', '#'); ?></li>
-                <li><?php echo $this->html->link('Se déconnecter', array('controller' => 'User', 'action' => 'logout')); ?></li>
+                <li><?php echo $this->html->link('Mon compte', array('controller' => 'Users', 'action' => 'account')); ?></li>
+                <li><?php echo $this->html->link('Se déconnecter', array('controller' => 'Users', 'action' => 'logout')); ?></li>
               </ul>
             <?php }else{ 
-              echo $this->Form->create('User', array('Class' => 'navbar-form pull-right'));
-              echo $this->Form->input('Username', array('label' => false, 'div' => false, 'placeholder' => 'Email', 'class' => 'span2'));
-              echo $this->Form->input('Userpassword', array('label' => false, 'div' => false, 'placeholder' => 'Mot de pass', 'class' => 'span2', 'type' => 'password'));
+              echo $this->Form->create('User', array('Class' => 'navbar-form pull-right', 'action' => 'login'));
+              echo $this->Form->input('username', array('label' => false, 'div' => false, 'placeholder' => 'Email', 'class' => 'span2'));
+              echo $this->Form->input('password', array('label' => false, 'div' => false, 'placeholder' => 'Mot de pass', 'class' => 'span2', 'type' => 'password'));
               ?>
                   <button class="btn" type="submit" >Se connecter</button>
              <?php 
