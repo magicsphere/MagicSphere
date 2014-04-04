@@ -1,6 +1,8 @@
 <?php
 	Class Card extends AppModel{
 	
+		Public $belongsTo = array('Game');
+	
 		public $validate = array(
 			'name' => array(
 				'alpha' => array(

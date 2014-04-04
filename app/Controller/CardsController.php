@@ -16,7 +16,7 @@
 				$this->set('cards', $this->Card->find('all', 
 											array(
 												'fields' =>array('id','name','created'),
-												'conditions' => array('id_games' => $this->params['named']['id'])
+												'conditions' => array('game_id' => $this->params['named']['id'])
 											)
 										)
 						);
@@ -44,29 +44,42 @@
 	        $this->set('Card', $Card);
 		}
 
-		public function AddCard(){
-			if(!empty($this->request->data)){
+		public function AddCard($id = null){
 
-				$this->Card->create($this->request->data);	
+			debug($id);
 
-				/*On contrôle que les zone soit bien remplis*/
-				if($this->Card->validates()){
+			if(!empty($id)){
+				$Card = $this->Card->findById($id);
+	
+				$games = $this->Card->Game->find('list');
 
-					$this->Card->create(array(
-							'name' => $this->request->data['Card']['name'],
-							'id_jeux' => $this->request->data['Card']['jeux'],
-							)
-						);
+				$this->set(compact('games'));
 
-						$this->Card->save();
-				}
+				$this->request->data['Card']['id'] 		 = $Card['Card']['id'];
+				$this->request->data['Card']['name'] 	 = $Card['Card']['name'];
+			
 			}else{
-				$this->set('games',$this->Game->find('all', 
-							array(
-									'fields' => array('id','name')
+				if(!empty($this->request->data)){
+
+					$this->Card->create($this->request->data);	
+
+					/*On contrôle que les zone soit bien remplis*/
+					if($this->Card->validates()){
+
+						$this->Card->create(array(
+								'name' => $this->request->data['Card']['name'],
+								'games_id' => $this->request->data['Card']['games_id'],
 								)
-							)
-						);
+							);
+
+							$this->Card->save();
+					}
+				}else{
+					$games = $this->Card->Game->find('list');
+
+					$this->set(compact('games'));
+					
+				}
 			}
 
 		}

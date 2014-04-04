@@ -5,12 +5,9 @@
 			<?php 
 				echo $this->form->create('Card'); 
 				echo $this->form->input('name', array('label' => "Nom "));
-				echo $this->Form->input('jeux', 
-											array(
-					      						'options' => $games,
-				      							'empty' => '(choisissez)'
-				  							)
-				  						);
+				echo $this->Form->input('games_id',array('label' => "Jeux "));
+				echo $this->form->input('id', array('type' => 'hidden'));
+				
 				echo $this->form->end("Ajouter");
 			?>
 

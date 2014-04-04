@@ -159,5 +159,46 @@
 			return $this->redirect(array('action' => 'login'));
 		}
 
+		/*Fonction de gestion du compte (Modification des données personnelles)*/
+		public function account(){
+			if(!empty($this->request->data)){
+				
+				$this->request->data['User']['id'] = $this->Auth->user('id');
+
+				$this->User->create($this->request->data);
+				
+				if($this->User->validates()){
+
+					$this->User->save($this->request->data, true, array('firstname','lastname'));
+
+					/*Gestion de l'image d'avatar*/
+					if(!empty($this->request->data['User']['avatarf']['tmp_name'])){
+						
+						$directory = IMAGES . ceil($this->User->id / 1000);
+
+						if(!file_exists($directory)){
+							mkdir($directory,0777);
+						}
+
+						$info = pathinfo($this->request->data['User']['avatarf']['name']);
+						
+						move_uploaded_file($this->request->data['User']['avatarf']['tmp_name'], $directory . DS . $this->User->id . $info['extension']);
+
+						$this->User->saveField('avatar', 1);
+		
+					}
+
+					
+					$this->Session->setFlash("Vos informations ont bien été modifiées","flash", array('class'=>'success'));
+				}
+			}else{
+				$this->User->id = $this->Auth->user('id');
+				$this->request->data = $this->User->read();
+			}
+
+			$this->request->data['User']['username'] = $this->Auth->user('username');
+
+		}
+
 	}
 ?>

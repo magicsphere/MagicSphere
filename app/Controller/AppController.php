@@ -33,6 +33,16 @@ App::uses('Controller', 'Controller');
  */
 class AppController extends Controller {
 
-	public $components = array('Session', 'Cookie', 'Auth');
+	public $components = array(
+			'Session', 
+			'Cookie', 
+			'Auth' => array(
+					'authenticate' => array(
+						'Form' => array(
+							'scope' => array('User.active' => 1)
+						)
+					)	
+				)
+			);
 
 }

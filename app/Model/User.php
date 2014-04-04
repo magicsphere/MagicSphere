@@ -26,12 +26,40 @@
 			),
 			'password2' => array(
 				'rule' => 'identicalFields'
+			),
+			'avatarf' => array(
+				'rule' => 'isJpgPng',
+				'message' => 'Vous devez envoyer un fichier au format Jpg ou png'
 			)
 		);		
 
 
 		public function identicalFields($check, $limit){
-			return $check['password2'] == $this->data['User']['password'];
+
+			$field = key($check);
+			
+			return $check[$field] == $this->data['User']['password'];
+		}
+
+		public function isJpgPng($check, $limit){
+
+			$field = key($check);
+
+			$fieldname = $check[$field]['name'];
+
+			if(!empty($fieldname)){
+
+				$info = pathinfo($fieldname);
+
+				if(strtolower($info['extension']) != 'jpg' && strtolower($info['extension']) != 'png'){
+					return false;
+				}
+
+
+			}
+
+			return true;
+			
 		}
 	}
 ?>
